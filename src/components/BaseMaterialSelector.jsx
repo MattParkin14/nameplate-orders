@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 const BaseMaterialSelector = ({ value, onChange }) => {
-  // Define the actual available materials
   const availableMaterials = [
     'blue',
     'black'
@@ -42,9 +41,12 @@ const BaseMaterialSelector = ({ value, onChange }) => {
       {selectedImage && (
         <div className="w-24 h-24">
           <img
-            src={`/nameplate-order/src/assets/Base/${selectedImage}.jpg`}
+            src={`src/assets/Base/${selectedImage}.jpg`}
             alt={selectedImage}
             className="w-full h-full object-cover rounded-md"
+            onError={(e) => {
+              console.error(`Failed to load image: src/assets/Base/${selectedImage}.jpg`);
+            }}
           />
         </div>
       )}
