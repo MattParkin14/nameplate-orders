@@ -69,7 +69,7 @@ const NameplateOrderForm = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1">
-            Your Name *
+            Name on the door Plate *
           </label>
           <input
             type="text"
@@ -81,20 +81,20 @@ const NameplateOrderForm = () => {
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Material *
-          </label>
-          <BaseMaterialSelector 
-            value={formData.material}
-            onChange={(value) => {
-              setFormData(prev => ({
-                ...prev,
-                material: value
-              }));
-            }}
-          />
-        </div>
+       <div>
+  <label className="block text-sm font-medium mb-1">
+    Material *
+  </label>
+  <BaseMaterialSelector 
+    value={formData.material}
+    onChange={(value) => {
+      setFormData(prev => ({
+        ...prev,
+        material: value
+      }));
+    }}
+  />
+</div>
 
         <div>
           <label className="block text-sm font-medium mb-1">
@@ -148,7 +148,7 @@ const NameplateOrderForm = () => {
 
         <div>
           <label className="block text-sm font-medium mb-1">
-            Facebook Name (Optional)
+            Facebook Name *
           </label>
           <input
             type="text"
