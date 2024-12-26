@@ -26,8 +26,8 @@ const BaseMaterialSelector = ({ value, onChange }) => {
   };
 
   return (
-    <div className="flex items-center gap-4">
-      <div className="w-full">
+    <div className="space-y-4">
+      <div>
         <select
           value={selectedImage}
           onChange={handleSelect}
@@ -44,11 +44,11 @@ const BaseMaterialSelector = ({ value, onChange }) => {
       </div>
       
       {selectedImage && (
-        <div className="w-24 h-24">
+        <div className="w-full max-w-xl">
           <img
             src={materialImages[selectedImage]}
             alt={selectedImage}
-            className="w-full h-full object-cover rounded-md"
+            className="w-full h-auto rounded-md"
           />
         </div>
       )}

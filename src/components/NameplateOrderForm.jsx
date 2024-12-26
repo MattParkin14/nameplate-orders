@@ -45,7 +45,6 @@ const NameplateOrderForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Here you would typically send the data to your server
       console.log('Order submitted:', formData);
       setSubmitted(true);
       setError('');
@@ -54,7 +53,7 @@ const NameplateOrderForm = () => {
 
   if (submitted) {
     return (
-      <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+      <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
         <div className="p-4 bg-green-100 text-green-700 rounded-lg">
           Thank you for your order! We will contact you at {formData.email} with further details.
         </div>
@@ -63,13 +62,13 @@ const NameplateOrderForm = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6 text-center">Custom Nameplate Order</h1>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1">
-            Name on the door Plate *
+            Your Name *
           </label>
           <input
             type="text"
@@ -81,20 +80,20 @@ const NameplateOrderForm = () => {
           />
         </div>
 
-       <div>
-  <label className="block text-sm font-medium mb-1">
-    Material *
-  </label>
-  <BaseMaterialSelector 
-    value={formData.material}
-    onChange={(value) => {
-      setFormData(prev => ({
-        ...prev,
-        material: value
-      }));
-    }}
-  />
-</div>
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Material *
+          </label>
+          <BaseMaterialSelector 
+            value={formData.material}
+            onChange={(value) => {
+              setFormData(prev => ({
+                ...prev,
+                material: value
+              }));
+            }}
+          />
+        </div>
 
         <div>
           <label className="block text-sm font-medium mb-1">
