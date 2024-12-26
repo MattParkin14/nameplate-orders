@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import BaseMaterialSelector from './BaseMaterialSelector';
 
 const NameplateOrderForm = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +14,6 @@ const NameplateOrderForm = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  const materials = ['Acrylic', 'Metal', 'Wood'];
   const sizes = ['Small (6")', 'Medium (8")', 'Large (10")'];
   const colors = ['Black', 'Gold', 'Silver', 'Rose Gold'];
 
@@ -85,18 +85,15 @@ const NameplateOrderForm = () => {
           <label className="block text-sm font-medium mb-1">
             Material *
           </label>
-          <select
-            name="material"
+          <BaseMaterialSelector 
             value={formData.material}
-            onChange={handleChange}
-            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          >
-            <option value="">Select Material</option>
-            {materials.map(material => (
-              <option key={material} value={material}>{material}</option>
-            ))}
-          </select>
+            onChange={(value) => {
+              setFormData(prev => ({
+                ...prev,
+                material: value
+              }));
+            }}
+          />
         </div>
 
         <div>

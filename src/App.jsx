@@ -1,4 +1,5 @@
 import NameplateOrderForm from './components/NameplateOrderForm'
+import BaseMaterialSelector from './components/BaseMaterialSelector';
 
 function App() {
   return (
