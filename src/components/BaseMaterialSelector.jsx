@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-const BaseMaterialSelector = ({ value, onChange }) => {
-  const availableMaterials = [
-    'blue',
-    'black'
-  ];
+// Import images directly using Vite's asset handling
+import blueImg from '../assets/Base/blue.jpg';
+import blackImg from '../assets/Base/black.jpg';
 
+const BaseMaterialSelector = ({ value, onChange }) => {
+  const materialImages = {
+    blue: blueImg,
+    black: blackImg
+  };
+
+  const availableMaterials = Object.keys(materialImages);
   const [selectedImage, setSelectedImage] = useState(value || '');
   
   useEffect(() => {
@@ -41,12 +46,9 @@ const BaseMaterialSelector = ({ value, onChange }) => {
       {selectedImage && (
         <div className="w-24 h-24">
           <img
-            src={`src/assets/Base/${selectedImage}.jpg`}
+            src={materialImages[selectedImage]}
             alt={selectedImage}
             className="w-full h-full object-cover rounded-md"
-            onError={(e) => {
-              console.error(`Failed to load image: src/assets/Base/${selectedImage}.jpg`);
-            }}
           />
         </div>
       )}
