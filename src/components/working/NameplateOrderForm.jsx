@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
-import BaseMaterialSelector from './BaseMaterialSelector';
-import AccentSelector from './AccentSelector';
-import StyleSelector from './StyleSelector';
-import FontSelector from './FontSelector';
+import React, { useState, useEffect } from 'react';
+
+// Import images for base materials
+import blueImg from '../assets/Base/blue.jpg';
+import blackImg from '../assets/Base/black.jpg';
+
+const materialImages = {
+  blue: blueImg,
+  black: blackImg
+};
 
 const NameplateOrderForm = () => {
   const [formData, setFormData] = useState({
@@ -22,19 +27,29 @@ const NameplateOrderForm = () => {
     error: null
   });
 
+  const [selectedImage, setSelectedImage] = useState('');
+  const availableMaterials = Object.keys(materialImages);
+
+  useEffect(() => {
+    if (!formData.baseMaterial && availableMaterials.length > 0) {
+      setSelectedImage(availableMaterials[0]);
+      setFormData(prev => ({
+        ...prev,
+        baseMaterial: availableMaterials[0]
+      }));
+    }
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-  };
 
-  const handleSelectorChange = (field) => (value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    if (name === 'baseMaterial') {
+      setSelectedImage(value);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -75,6 +90,7 @@ const NameplateOrderForm = () => {
         font: '',
         size: ''
       });
+      setSelectedImage('');
 
     } catch (error) {
       setStatus({
@@ -151,36 +167,80 @@ const NameplateOrderForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Style</label>
-          <StyleSelector 
+          <label htmlFor="style" className="block text-sm font-medium text-gray-700">Style</label>
+          <select
+            id="style"
+            name="style"
             value={formData.style}
-            onChange={handleSelectorChange('style')}
-          />
+            onChange={handleChange}
+            required
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+          >
+            <option value="">Select a style</option>
+            <option value="Classic">Classic</option>
+            <option value="Modern">Modern</option>
+            <option value="Minimalist">Minimalist</option>
+          </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Base Material</label>
-          <BaseMaterialSelector 
+          <label htmlFor="baseMaterial" className="block text-sm font-medium text-gray-700">Base Material</label>
+          <select
+            id="baseMaterial"
+            name="baseMaterial"
             value={formData.baseMaterial}
-            onChange={handleSelectorChange('baseMaterial')}
-          />
+            onChange={handleChange}
+            required
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+          >
+            <option value="">Select Material</option>
+            {availableMaterials.map((material) => (
+              <option key={material} value={material}>
+                {material.charAt(0).toUpperCase() + material.slice(1)}
+              </option>
+            ))}
+          </select>
+          {selectedImage && (
+            <div className="mt-2">
+              <img
+                src={materialImages[selectedImage]}
+                alt={selectedImage}
+                className="w-full h-auto rounded-md"
+              />
+            </div>
+          )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Accent Color</label>
-          <AccentSelector 
+          <label htmlFor="accentColor" className="block text-sm font-medium text-gray-700">Accent Color</label>
+          <input
+            type="text"
+            id="accentColor"
+            name="accentColor"
             value={formData.accentColor}
-            onChange={handleSelectorChange('accentColor')}
+            onChange={handleChange}
+            required
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+            placeholder="e.g., Gold, Silver, Rose Gold"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Font</label>
-          <FontSelector 
+          <label htmlFor="font" className="block text-sm font-medium text-gray-700">Font</label>
+          <select
+            id="font"
+            name="font"
             value={formData.font}
-            onChange={handleSelectorChange('font')}
-            previewText={formData.nameOnPlate || 'Preview Text'}
-          />
+            onChange={handleChange}
+            required
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+          >
+            <option value="">Select a font</option>
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Calibri">Calibri</option>
+            <option value="Script">Script</option>
+          </select>
         </div>
 
         <div>

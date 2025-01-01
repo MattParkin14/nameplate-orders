@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
 
-// Use Vite's glob import feature to dynamically import all images
-const imageModules = import.meta.glob('../assets/Base/*.{jpg,jpeg,png}', {
-  eager: true,
-  as: 'url'
-});
+import React, { useState, useEffect } from 'react';
+
+// Import images directly using Vite's asset handling
+import blueImg from '../assets/Base/blue.jpg';
+import blackImg from '../assets/Base/black.jpg';
 
 const BaseMaterialSelector = ({ value, onChange }) => {
-  // Convert the imported modules into a more usable format
-  const materialImages = Object.entries(imageModules).reduce((acc, [path, url]) => {
-    // Extract the filename without extension from the path
-    const filename = path.split('/').pop().split('.')[0].toLowerCase();
-    return {
-      ...acc,
-      [filename]: url
-    };
-  }, {});
+  const materialImages = {
+    blue: blueImg,
+    black: blackImg
+  };
 
   const availableMaterials = Object.keys(materialImages);
   const [selectedImage, setSelectedImage] = useState(value || '');
+  
+  useEffect(() => {
+    if (!value && availableMaterials.length > 0) {
+      setSelectedImage(availableMaterials[0]);
+      onChange(availableMaterials[0]);
+    }
+  }, [value, onChange]);
 
   const handleSelect = (event) => {
     setSelectedImage(event.target.value);
