@@ -87,7 +87,7 @@ const NameplateOrderForm = () => {
 
   if (status.success) {
     return (
-      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+      <div className="max-w-md mx-auto p-6 bg-White rounded-lg shadow-md">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-green-600 mb-4">Order Submitted Successfully!</h2>
           <p className="text-gray-600 mb-4">Thank you for your order. Your submission has been recorded and we'll be in touch soon.</p>
@@ -103,7 +103,7 @@ const NameplateOrderForm = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Nameplate Order Form</h2>
       {status.error && (
         <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
