@@ -23,6 +23,11 @@ const FontSelector = ({ value, onChange, previewText }) => {
           font-family: "${fontName}";
           src: url("${url}") format("truetype");
         }
+        
+        /* Add a specific class for the option to use this font */
+        .font-option-${fontName} {
+          font-family: "${fontName}", sans-serif !important;
+        }
       `;
       document.head.appendChild(style);
       
@@ -67,12 +72,24 @@ const FontSelector = ({ value, onChange, previewText }) => {
         <select
           value={value}
           onChange={handleSelect}
-          className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
           required
+          style={{
+            fontFamily: value ? value : 'inherit'
+          }}
         >
-          <option value="">Select Font</option>
+          <option value="" style={{ fontFamily: 'inherit' }}>Select Font</option>
           {fontFaces.map((fontName) => (
-            <option key={fontName} value={fontName}>
+            <option 
+              key={fontName} 
+              value={fontName}
+              className={`font-option-${fontName}`}
+              style={{ 
+                fontFamily: fontName,
+                fontSize: '18px',
+                padding: '8px'
+              }}
+            >
               {fontName.charAt(0).toUpperCase() + fontName.slice(1)}
             </option>
           ))}
@@ -83,7 +100,7 @@ const FontSelector = ({ value, onChange, previewText }) => {
         <div className="p-4 border rounded-md bg-gray-50">
           <p className="text-xl text-gray-500 mb-2">Preview:</p>
           <p 
-            className="text-3xl break-words"
+            className="text-4xl break-words"
             style={{ 
               fontFamily: value,
               minHeight: '2em'

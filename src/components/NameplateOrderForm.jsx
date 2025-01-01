@@ -6,14 +6,24 @@ import FontSelector from './FontSelector';
 
 const NameplateOrderForm = () => {
   const [formData, setFormData] = useState({
+    // Contact Information
     nameFacebook: '',
     email: '',
+    
+    // Product Details
     nameOnPlate: '',
     style: '',
     baseMaterial: '',
     accentColor: '',
     font: '',
-    size: ''
+    size: '',
+    
+    // Shipping Address
+    streetAddress: '',
+    apartment: '',
+    city: '',
+    zipCode: '',
+    country: ''
   });
 
   const [status, setStatus] = useState({
@@ -64,7 +74,6 @@ const NameplateOrderForm = () => {
         error: null
       });
 
-      // Reset form after successful submission
       setFormData({
         nameFacebook: '',
         email: '',
@@ -73,7 +82,12 @@ const NameplateOrderForm = () => {
         baseMaterial: '',
         accentColor: '',
         font: '',
-        size: ''
+        size: '',
+        streetAddress: '',
+        apartment: '',
+        city: '',
+        zipCode: '',
+        country: ''
       });
 
     } catch (error) {
@@ -87,7 +101,7 @@ const NameplateOrderForm = () => {
 
   if (status.success) {
     return (
-      <div className="max-w-md mx-auto p-6 bg-White rounded-lg shadow-md">
+      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-green-600 mb-4">Order Submitted Successfully!</h2>
           <p className="text-gray-600 mb-4">Thank you for your order. Your submission has been recorded and we'll be in touch soon.</p>
@@ -103,101 +117,184 @@ const NameplateOrderForm = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
+    <div className="max-w-2xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Nameplate Order Form</h2>
       {status.error && (
         <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
           {status.error}
         </div>
       )}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="nameFacebook" className="block text-sm font-medium text-gray-700">Name / Facebook Name</label>
-          <input
-            type="text"
-            id="nameFacebook"
-            name="nameFacebook"
-            value={formData.nameFacebook}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
-          />
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Contact Information */}
+        <div className="bg-white p-4 rounded-md shadow-sm">
+          <h3 className="text-lg font-semibold mb-4 text-gray-700">Contact Information</h3>
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="nameFacebook" className="block text-sm font-medium text-gray-700">Name / Facebook Name</label>
+              <input
+                type="text"
+                id="nameFacebook"
+                name="nameFacebook"
+                value={formData.nameFacebook}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+              />
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
-          />
+        {/* Product Details */}
+        <div className="bg-white p-4 rounded-md shadow-sm">
+          <h3 className="text-lg font-semibold mb-4 text-gray-700">Product Details</h3>
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="nameOnPlate" className="block text-sm font-medium text-gray-700">Name on Plate</label>
+              <input
+                type="text"
+                id="nameOnPlate"
+                name="nameOnPlate"
+                value={formData.nameOnPlate}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Style</label>
+              <StyleSelector 
+                value={formData.style}
+                onChange={handleSelectorChange('style')}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Base Material</label>
+              <BaseMaterialSelector 
+                value={formData.baseMaterial}
+                onChange={handleSelectorChange('baseMaterial')}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Accent Color</label>
+              <AccentSelector 
+                value={formData.accentColor}
+                onChange={handleSelectorChange('accentColor')}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Font</label>
+              <FontSelector 
+                value={formData.font}
+                onChange={handleSelectorChange('font')}
+                previewText={formData.nameOnPlate || 'Preview Text'}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="size" className="block text-sm font-medium text-gray-700">Size</label>
+              <select
+                id="size"
+                name="size"
+                value={formData.size}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+              >
+                <option value="">Select a size</option>
+                <option value="Small">Small (2" x 8")</option>
+                <option value="Medium">Medium (3" x 12")</option>
+                <option value="Large">Large (4" x 16")</option>
+              </select>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="nameOnPlate" className="block text-sm font-medium text-gray-700">Name on Plate</label>
-          <input
-            type="text"
-            id="nameOnPlate"
-            name="nameOnPlate"
-            value={formData.nameOnPlate}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
-          />
-        </div>
+        {/* Shipping Address */}
+        <div className="bg-white p-4 rounded-md shadow-sm">
+          <h3 className="text-lg font-semibold mb-4 text-gray-700">Shipping Address</h3>
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="streetAddress" className="block text-sm font-medium text-gray-700">Street Address</label>
+              <input
+                type="text"
+                id="streetAddress"
+                name="streetAddress"
+                value={formData.streetAddress}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+              />
+            </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Style</label>
-          <StyleSelector 
-            value={formData.style}
-            onChange={handleSelectorChange('style')}
-          />
-        </div>
+            <div>
+              <label htmlFor="apartment" className="block text-sm font-medium text-gray-700">Apartment, suite, etc. (optional)</label>
+              <input
+                type="text"
+                id="apartment"
+                name="apartment"
+                value={formData.apartment}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+              />
+            </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Base Material</label>
-          <BaseMaterialSelector 
-            value={formData.baseMaterial}
-            onChange={handleSelectorChange('baseMaterial')}
-          />
-        </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">ZIP Code</label>
+                <input
+                  type="text"
+                  id="zipCode"
+                  name="zipCode"
+                  value={formData.zipCode}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+                />
+              </div>
+            </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Accent Color</label>
-          <AccentSelector 
-            value={formData.accentColor}
-            onChange={handleSelectorChange('accentColor')}
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Font</label>
-          <FontSelector 
-            value={formData.font}
-            onChange={handleSelectorChange('font')}
-            previewText={formData.nameOnPlate || 'Preview Text'}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="size" className="block text-sm font-medium text-gray-700">Size</label>
-          <select
-            id="size"
-            name="size"
-            value={formData.size}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
-          >
-            <option value="">Select a size</option>
-            <option value="Small">Small (2" x 8")</option>
-            <option value="Medium">Medium (3" x 12")</option>
-            <option value="Large">Large (4" x 16")</option>
-          </select>
+            <div>
+              <label htmlFor="country" className="block text-sm font-medium text-gray-700">Country</label>
+              <input
+                type="text"
+                id="country"
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+              />
+            </div>
+          </div>
         </div>
 
         <button
