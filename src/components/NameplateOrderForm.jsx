@@ -126,7 +126,7 @@ const NameplateOrderForm = () => {
       )}
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Contact Information */}
-        <div className="bg-white p-4 rounded-md shadow-sm">
+        <div className="bg-blue-100 p-4 rounded-md shadow-sm">
           <h3 className="text-lg font-semibold mb-4 text-gray-700">Contact Information</h3>
           <div className="space-y-4">
             <div>
@@ -158,7 +158,7 @@ const NameplateOrderForm = () => {
         </div>
 
         {/* Product Details */}
-        <div className="bg-white p-4 rounded-md shadow-sm">
+        <div className="bg-blue-100 p-4 rounded-md shadow-sm">
           <h3 className="text-lg font-semibold mb-4 text-gray-700">Product Details</h3>
           <div className="space-y-4">
             <div>
@@ -227,7 +227,7 @@ const NameplateOrderForm = () => {
         </div>
 
         {/* Shipping Address */}
-        <div className="bg-white p-4 rounded-md shadow-sm">
+        <div className="bg-blue-100 p-4 rounded-md shadow-sm">
           <h3 className="text-lg font-semibold mb-4 text-gray-700">Shipping Address</h3>
           <div className="space-y-4">
             <div>

@@ -100,7 +100,7 @@ const FontSelector = ({ value, onChange, previewText }) => {
         <div className="p-4 border rounded-md bg-gray-50">
           <p className="text-xl text-gray-500 mb-2">Preview:</p>
           <p 
-            className="text-4xl break-words"
+            className="text-6xl break-words"
             style={{ 
               fontFamily: value,
               minHeight: '2em'
