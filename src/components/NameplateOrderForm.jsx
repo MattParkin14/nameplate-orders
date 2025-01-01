@@ -118,7 +118,7 @@ const NameplateOrderForm = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Nameplate Order Form</h2>
+      <h2 className="text-3xl font-bold mb-4 items-center">Name Plate Order Form</h2>
       {status.error && (
         <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
           {status.error}
@@ -162,13 +162,23 @@ const NameplateOrderForm = () => {
           <h3 className="text-lg font-semibold mb-4 text-gray-700">Product Details</h3>
           <div className="space-y-4">
             <div>
-              <label htmlFor="nameOnPlate" className="block text-sm font-medium text-gray-700">Name on Plate</label>
+             <label htmlFor="nameOnPlate" className="block text-sm font-medium text-gray-700">
+                Name on Plate
+                <span className="text-gray-500 text-sm ml-2">
+                  ({formData.nameOnPlate.length}/12 characters)
+                </span>
+              </label>
               <input
                 type="text"
                 id="nameOnPlate"
                 name="nameOnPlate"
                 value={formData.nameOnPlate}
-                onChange={handleChange}
+                onChange={(e) => {
+                  if (e.target.value.length <= 12) {
+                    handleChange(e);
+                  }
+                }}
+                maxLength={12}
                 required
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
               />
@@ -218,9 +228,9 @@ const NameplateOrderForm = () => {
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
               >
                 <option value="">Select a size</option>
-                <option value="Small">Small (2" x 8")</option>
-                <option value="Medium">Medium (3" x 12")</option>
-                <option value="Large">Large (4" x 16")</option>
+                <option value="Door">Door $10 (~13cm)</option>
+                <option value="Medium">Medium $22 (~20)</option>
+                <option value="Jumbo">Jumbo $30 (~31 cm)</option>
               </select>
             </div>
           </div>
