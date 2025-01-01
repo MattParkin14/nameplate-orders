@@ -193,7 +193,7 @@ const NameplateOrderForm = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Base Material</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Base Colour</label>
               <BaseMaterialSelector 
                 value={formData.baseMaterial}
                 onChange={handleSelectorChange('baseMaterial')}
