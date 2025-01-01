@@ -12,6 +12,12 @@ const NameplateOrderForm = () => {
     size: ''
   });
 
+  const [status, setStatus] = useState({
+    loading: false,
+    success: false,
+    error: null
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -20,35 +26,77 @@ const NameplateOrderForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus({ loading: true, success: false, error: null });
     
-    // Google Form ID from URL
-    const formId = 'e/1FAIpQLSfxpk_A9XuWTsh-qf4gvqtO2KE20DYOHVDYGAOQYkwWQ288Zw';
-    
-    // Create the prefilled URL with the correct entry IDs
-    const params = new URLSearchParams({
-      'usp': 'pp_url',
-      'entry.1145160916': formData.nameFacebook,
-      'entry.1878643777': formData.email,
-      'entry.387268001': formData.nameOnPlate,
-      'entry.914394063': formData.style,
-      'entry.397317509': formData.baseColor,
-      'entry.874300709': formData.accentColor,
-      'entry.2082094946': formData.font,
-      'entry.21232468': formData.size
-    });
+    try {
+      const response = await fetch('https://your-worker-url.workers.dev', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
 
-    // Direct form URL (without the /e/ part)
-    const url = `https://docs.google.com/forms/d/${formId}/viewform?${params.toString()}`;
-    
-    // Open the prefilled form in a new tab
-    window.open(url, '_blank');
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit form');
+      }
+
+      setStatus({
+        loading: false,
+        success: true,
+        error: null
+      });
+
+      // Optional: Reset form after successful submission
+      setFormData({
+        nameFacebook: '',
+        email: '',
+        nameOnPlate: '',
+        style: '',
+        baseColor: '',
+        accentColor: '',
+        font: '',
+        size: ''
+      });
+
+    } catch (error) {
+      setStatus({
+        loading: false,
+        success: false,
+        error: error.message
+      });
+    }
   };
+
+  if (status.success) {
+    return (
+      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-green-600 mb-4">Order Submitted Successfully!</h2>
+          <p className="text-gray-600 mb-4">Thank you for your order. We'll be in touch soon.</p>
+          <button
+            onClick={() => setStatus({ loading: false, success: false, error: null })}
+            className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Submit Another Order
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Nameplate Order Form</h2>
+      {status.error && (
+        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          {status.error}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="nameFacebook" className="block text-sm font-medium text-gray-700">Name / Facebook Name</label>
@@ -169,17 +217,17 @@ const NameplateOrderForm = () => {
           </select>
         </div>
 
-        <div className="space-y-2">
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Preview and Submit Order
-          </button>
-          <p className="text-sm text-gray-600 text-center">
-            You'll be taken to a pre-filled form to review and submit your order
-          </p>
-        </div>
+        <button
+          type="submit"
+          disabled={status.loading}
+          className={`w-full py-2 px-4 rounded-md transition-colors ${
+            status.loading 
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-blue-600 hover:bg-blue-700 text-white'
+          }`}
+        >
+          {status.loading ? 'Submitting...' : 'Submit Order'}
+        </button>
       </form>
     </div>
   );
