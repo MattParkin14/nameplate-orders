@@ -31,7 +31,7 @@ const NameplateOrderForm = () => {
     setStatus({ loading: true, success: false, error: null });
     
     try {
-      const response = await fetch('https://your-worker-url.workers.dev', {
+      const response = await fetch('https://worker.lively-sea-9721.workers.dev/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const NameplateOrderForm = () => {
         error: null
       });
 
-      // Optional: Reset form after successful submission
+      // Reset form after successful submission
       setFormData({
         nameFacebook: '',
         email: '',
@@ -77,7 +77,7 @@ const NameplateOrderForm = () => {
       <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-green-600 mb-4">Order Submitted Successfully!</h2>
-          <p className="text-gray-600 mb-4">Thank you for your order. We'll be in touch soon.</p>
+          <p className="text-gray-600 mb-4">Thank you for your order. Your submission has been recorded and we'll be in touch soon.</p>
           <button
             onClick={() => setStatus({ loading: false, success: false, error: null })}
             className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
