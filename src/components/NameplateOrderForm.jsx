@@ -31,7 +31,7 @@ const NameplateOrderForm = () => {
     setStatus({ loading: true, success: false, error: null });
     
     try {
-            const response = await fetch('https://holy-dew-6b09.lively-sea-9721.workers.dev/, {
+            const response = await fetch('https://holy-dew-6b09.lively-sea-9721.workers.dev/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
