@@ -1,4 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+// Import images for base materials
+import blueImg from '../assets/Base/blue.jpg';
+import blackImg from '../assets/Base/black.jpg';
+
+const materialImages = {
+  blue: blueImg,
+  black: blackImg
+};
 
 const NameplateOrderForm = () => {
   const [formData, setFormData] = useState({
@@ -6,7 +15,7 @@ const NameplateOrderForm = () => {
     email: '',
     nameOnPlate: '',
     style: '',
-    baseColor: '',
+    baseMaterial: '',
     accentColor: '',
     font: '',
     size: ''
@@ -18,12 +27,29 @@ const NameplateOrderForm = () => {
     error: null
   });
 
+  const [selectedImage, setSelectedImage] = useState('');
+  const availableMaterials = Object.keys(materialImages);
+
+  useEffect(() => {
+    if (!formData.baseMaterial && availableMaterials.length > 0) {
+      setSelectedImage(availableMaterials[0]);
+      setFormData(prev => ({
+        ...prev,
+        baseMaterial: availableMaterials[0]
+      }));
+    }
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+
+    if (name === 'baseMaterial') {
+      setSelectedImage(value);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -31,7 +57,7 @@ const NameplateOrderForm = () => {
     setStatus({ loading: true, success: false, error: null });
     
     try {
-            const response = await fetch('https://holy-dew-6b09.lively-sea-9721.workers.dev/', {
+      const response = await fetch('https://holy-dew-6b09.lively-sea-9721.workers.dev/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,11 +85,12 @@ const NameplateOrderForm = () => {
         email: '',
         nameOnPlate: '',
         style: '',
-        baseColor: '',
+        baseMaterial: '',
         accentColor: '',
         font: '',
         size: ''
       });
+      setSelectedImage('');
 
     } catch (error) {
       setStatus({
@@ -157,17 +184,31 @@ const NameplateOrderForm = () => {
         </div>
 
         <div>
-          <label htmlFor="baseColor" className="block text-sm font-medium text-gray-700">Base Color</label>
-          <input
-            type="text"
-            id="baseColor"
-            name="baseColor"
-            value={formData.baseColor}
+          <label htmlFor="baseMaterial" className="block text-sm font-medium text-gray-700">Base Material</label>
+          <select
+            id="baseMaterial"
+            name="baseMaterial"
+            value={formData.baseMaterial}
             onChange={handleChange}
             required
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
-            placeholder="e.g., Black, White, Silver"
-          />
+          >
+            <option value="">Select Material</option>
+            {availableMaterials.map((material) => (
+              <option key={material} value={material}>
+                {material.charAt(0).toUpperCase() + material.slice(1)}
+              </option>
+            ))}
+          </select>
+          {selectedImage && (
+            <div className="mt-2">
+              <img
+                src={materialImages[selectedImage]}
+                alt={selectedImage}
+                className="w-full h-auto rounded-md"
+              />
+            </div>
+          )}
         </div>
 
         <div>

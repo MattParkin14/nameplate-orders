@@ -1,0 +1,93 @@
+// worker.js
+export default {
+  async fetch(request, env) {
+    // Define allowed origins - add your website's domain here
+    const allowedOrigins = [
+      'https://nameplate-orders.pages.dev/',
+      'http://localhost:5173',  // For local development
+      'http://localhost:3000'   // For local development
+    ];
+
+    // Get the requesting origin
+    const origin = request.headers.get('Origin');
+    const isAllowedOrigin = allowedOrigins.includes(origin) || !origin;
+
+    // Handle CORS preflight requests
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        headers: {
+          "Access-Control-Allow-Origin": isAllowedOrigin ? origin : allowedOrigins[0],
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Max-Age": "86400",
+        },
+      });
+    }
+
+    if (request.method === "POST") {
+      try {
+        const formData = await request.json();
+        
+        // Create form data for Google Forms
+        const googleFormData = new URLSearchParams();
+        
+        // Map your form fields to Google Form fields
+        googleFormData.append('entry.1145160916', formData.nameFacebook);
+        googleFormData.append('entry.1878643777', formData.email);
+        googleFormData.append('entry.387268001', formData.nameOnPlate);
+        googleFormData.append('entry.914394063', formData.style);
+        googleFormData.append('entry.397317509', formData.baseColor);
+        googleFormData.append('entry.874300709', formData.accentColor);
+        googleFormData.append('entry.2082094946', formData.font);
+        googleFormData.append('entry.21232468', formData.size);
+
+        // Submit to Google Forms
+        const formResponse = await fetch(
+          'https://docs.google.com/forms/d/e/1FAIpQLSfxpk_A9XuWTsh-qf4gvqtO2KE20DYOHVDYGAOQYkwWQ288Zw/formResponse',
+          {
+            method: 'POST',
+            body: googleFormData,
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          }
+        );
+
+        // Return success response with CORS headers
+        return new Response(
+          JSON.stringify({ message: "Order submitted successfully" }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": isAllowedOrigin ? origin : allowedOrigins[0],
+              "Access-Control-Allow-Methods": "POST, OPTIONS",
+              "Access-Control-Allow-Headers": "Content-Type",
+            },
+          }
+        );
+
+      } catch (error) {
+        // Return error response with CORS headers
+        return new Response(
+          JSON.stringify({ error: "Failed to process order: " + error.message }),
+          {
+            status: 500,
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": isAllowedOrigin ? origin : allowedOrigins[0],
+              "Access-Control-Allow-Methods": "POST, OPTIONS",
+              "Access-Control-Allow-Headers": "Content-Type",
+            },
+          }
+        );
+      }
+    }
+
+    return new Response("Method not allowed2", { 
+      status: 405,
+      headers: {
+        "Access-Control-Allow-Origin": isAllowedOrigin ? origin : allowedOrigins[0],
+      }
+    });
+  },
+};
