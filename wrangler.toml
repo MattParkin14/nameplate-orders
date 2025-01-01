@@ -1,0 +1,13 @@
+name = "nameplate-orders"
+compatibility_date = "2024-01-01"
+
+[vars]
+# Environment variables here
+
+[[d1_databases]]
+binding = "DB"
+database_name = "orders"
+database_id = "your-database-id"
+
+[triggers]
+crons = []
