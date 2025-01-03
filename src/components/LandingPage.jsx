@@ -1,5 +1,6 @@
 import React from 'react';
 import { Star, ChevronRight, Package2, Clock, Sparkles } from 'lucide-react';
+import ImageCarousel from './ImageCarousel';
 import { Link } from 'react-router-dom';
 
 // Use Vite's glob import feature to dynamically import all gallery images
@@ -20,16 +21,21 @@ const LandingPage = () => {
     {
       name: "Sarah M.",
       rating: 5,
-      text: "Absolutely love my nameplate! The quality is amazing and it looks perfect on my daughter's door.",
+      text: "Love my nameplate! The quality is amazing and it looks perfect on my daughter's door. Quick shipping and easy to mount with the velcro!",
       image: Object.values(reviewImages)[0]
     },
     {
-      name: "James K.",
+      name: "Paul R.",
       rating: 5,
-      text: "Quick delivery and excellent communication throughout. The 3M velcro makes it so easy to mount!",
+      text: "Got this for my son's room and he absolutely loves it! The 3D printing quality is fantastic and it was simple to put up.",
       image: Object.values(reviewImages)[1]
     },
-    // Add more reviews here
+    {
+      name: "Emily W.",
+      rating: 5,
+      text: "Such a unique gift! The colors matched perfectly with our decor and the customer service was excellent.",
+      image: Object.values(reviewImages)[2]
+    }
   ];
 
   return (
@@ -79,17 +85,7 @@ const LandingPage = () => {
       <div className="py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Gallery</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {images.map((image, index) => (
-              <div key={index} className="rounded-lg overflow-hidden shadow-lg">
-                <img
-                  src={image}
-                  alt={`Nameplate example ${index + 1}`}
-                  className="w-full h-auto"
-                />
-              </div>
-            ))}
-          </div>
+          <ImageCarousel images={images} autoRotateInterval={5000} />
         </div>
       </div>
 
