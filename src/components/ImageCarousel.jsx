@@ -62,34 +62,40 @@ const ImageCarousel = ({ images, autoRotateInterval = 3000 }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative h-[400px] overflow-hidden">
+      <div className="relative h-[400px] overflow-visible">
         {/* Previous Image (faded) */}
-        <div className="absolute inset-0 -left-2/4 z-0 opacity-35">
-          <img
-            src={images[prev]}
-            alt="Previous"
-            className="w-full h-full object-contain rounded-lg transform scale-90"
-          />
+        <div className="absolute top-0 -left-2/4 w-full h-full z-0 opacity-35">
+          <div className="w-full h-full px-4">
+            <img
+              src={images[prev]}
+              alt="Previous"
+              className="w-full h-full object-contain rounded-lg transform scale-90"
+            />
+          </div>
         </div>
 
-        {/* Main Image */}
-        <div className={`absolute inset-0 z-10 transition-transform duration-500 ${
-          isTransitioning ? 'scale-95 opacity-100' : 'scale-100 opacity-100 '
-        }`}>
-          <img
-            src={images[currentIndex]}
-            alt={`Gallery image ${currentIndex + 1}`}
-            className="relative w-full h-full object-contain rounded-2xl"
-          />          
+        {/* Main Image Container */}
+        <div className="absolute left-0 right-0 mx-auto h-full z-10">
+          <div className={`w-full h-full transition-transform duration-500 rounded-lg overflow-hidden ${
+            isTransitioning ? 'scale-95 opacity-100' : 'scale-100 opacity-100'
+          }`}>
+            <img
+              src={images[currentIndex]}
+              alt={`Gallery image ${currentIndex + 1}`}
+              className="w-full h-full object-cover rounded-lg"
+            />          
+          </div>
         </div>
 
         {/* Next Image (faded) */}
-        <div className="absolute inset-0 -right-3/4 z-0 opacity-35">
-          <img
-            src={images[next]}
-            alt="Next"
-            className="w-full h-full object-contain rounded-lg transform scale-90"
-          />
+        <div className="absolute top-0 -right-2/4 w-full h-full z-0 opacity-35">
+          <div className="w-full h-full px-4">
+            <img
+              src={images[next]}
+              alt="Next"
+              className="w-full h-full object-contain rounded-lg transform scale-90"
+            />
+          </div>
         </div>
 
         {/* Navigation arrows */}
@@ -128,26 +134,39 @@ const ImageCarousel = ({ images, autoRotateInterval = 3000 }) => {
         </div>
       </div>
 
-      {/* Thumbnail strip */}
-      <div className="mt-4 flex space-x-2 overflow-x-auto py-2">
-        {images.map((image, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            disabled={isTransitioning}
-            className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden transition-all ${
-              index === currentIndex 
-                ? 'ring-2 ring-blue-500 scale-110' 
-                : 'opacity-50 hover:opacity-75 hover:scale-105'
-            }`}
-          >
-            <img
-              src={image}
-              alt={`Thumbnail ${index + 1}`}
-              className="w-full h-full object-cover"
-            />
-          </button>
-        ))}
+      {/* Thumbnail strip with hidden scrollbar */}
+      <div className="mt-4 relative">
+        <div className="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
+          {images.map((image, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              disabled={isTransitioning}
+              className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden transition-all ${
+                index === currentIndex 
+                  ? 'ring-2 ring-blue-500 scale-110' 
+                  : 'opacity-50 hover:opacity-75 hover:scale-105'
+              }`}
+            >
+              <img
+                src={image}
+                alt={`Thumbnail ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+        
+        {/* Custom scrollbar styling */}
+        <style jsx global>{`
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
       </div>
     </div>
   );
