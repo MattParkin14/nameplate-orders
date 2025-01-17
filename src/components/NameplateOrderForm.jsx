@@ -119,7 +119,7 @@ const NameplateOrderForm = () => {
   return (
     <div className="max-w-2xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-3xl font-bold mb-4 items-center">Name Plate Order Form</h2>
-	  <h3 className="text-1xl font-bold mb-4 items-center text-red-700">Please be aware orders placed now we will be fulfilled on the 12th of January as we are currently away, sorry for the delay </h3>
+	  <h3 className="text-1xl font-bold mb-4 items-center text-red-700"></h3>
       {status.error && (
         <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
           {status.error}
